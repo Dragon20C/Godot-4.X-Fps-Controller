@@ -1,0 +1,20 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://rskr2nud0dio"]
+
+[ext_resource type="FontFile" uid="uid://cbqj2u7wux7dn" path="res://Game/Fonts/Bai_Jamjuree/BaiJamjuree-Bold.ttf" id="1_0nola"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qc2pi"]
+bg_color = Color(0.192157, 0.192157, 0.192157, 0.647059)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.631373, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[resource]
+default_font = ExtResource("1_0nola")
+default_font_size = 24
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_qc2pi")

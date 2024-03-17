@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://bv2n8wxmyu7fj"]
+
+[ext_resource type="Texture2D" uid="uid://xyk7qmxir2qy" path="res://Game/Objects/Muzzle flash/MuzzleFlash_1.png" id="1_jic6p"]
+[ext_resource type="Script" path="res://Game/Objects/Muzzle flash/muzzle_flash.gd" id="2_y5ftl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kw7so"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("1_jic6p")
+disable_receive_shadows = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_ia4no"]
+material = SubResource("StandardMaterial3D_kw7so")
+
+[node name="Muzzle_flash" type="MeshInstance3D"]
+visible = false
+mesh = SubResource("QuadMesh_ia4no")
+script = ExtResource("2_y5ftl")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

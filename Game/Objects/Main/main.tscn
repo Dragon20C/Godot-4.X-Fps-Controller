@@ -1,0 +1,64 @@
+[gd_scene load_steps=9 format=3 uid="uid://bnud16otp1y3q"]
+
+[ext_resource type="PackedScene" uid="uid://tt1wg3j6vtqt" path="res://Game/Objects/Map/lighthouse_map.tscn" id="1_0e5tb"]
+[ext_resource type="Texture2D" uid="uid://bgaywx2t07pan" path="res://Game/Objects/HDR/kloofendal_48d_partly_cloudy_puresky_4k.hdr" id="2_sn6l6"]
+[ext_resource type="PackedScene" uid="uid://c4uxbcfyoi64a" path="res://Game/Objects/Player/player.tscn" id="3_ghmmk"]
+[ext_resource type="Script" path="res://Game/Objects/Dev_Menu/Dev_menu.gd" id="4_siaom"]
+[ext_resource type="Theme" uid="uid://rskr2nud0dio" path="res://Game/Objects/Dev_Menu/Theme/Dev_Theme.tres" id="5_dcjie"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_h7aru"]
+panorama = ExtResource("2_sn6l6")
+
+[sub_resource type="Sky" id="Sky_vc2if"]
+sky_material = SubResource("PanoramaSkyMaterial_h7aru")
+
+[sub_resource type="Environment" id="Environment_1i1eb"]
+background_mode = 2
+sky = SubResource("Sky_vc2if")
+
+[node name="Main" type="Node3D"]
+
+[node name="Lighthouse_map" parent="." instance=ExtResource("1_0e5tb")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1i1eb")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 4, 0)
+shadow_enabled = true
+directional_shadow_split_1 = 0.03
+directional_shadow_split_2 = 0.1
+directional_shadow_split_3 = 0.2
+
+[node name="Player" parent="." instance=ExtResource("3_ghmmk")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -11, 1, 13)
+
+[node name="Game_interface" type="CanvasLayer" parent="."]
+
+[node name="Dev_menu" type="Control" parent="Game_interface"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_siaom")
+
+[node name="PanelContainer" type="PanelContainer" parent="Game_interface/Dev_menu"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 272.0
+offset_bottom = 312.0
+theme = ExtResource("5_dcjie")
+
+[node name="Container" type="VBoxContainer" parent="Game_interface/Dev_menu/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Game_interface/Dev_menu/PanelContainer/Container"]
+layout_mode = 2
+theme = ExtResource("5_dcjie")
+text = "Dev Menu"
+horizontal_alignment = 1
+vertical_alignment = 1

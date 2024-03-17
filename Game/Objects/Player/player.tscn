@@ -1,0 +1,103 @@
+[gd_scene load_steps=13 format=3 uid="uid://c4uxbcfyoi64a"]
+
+[ext_resource type="Script" path="res://Game/Objects/Player/player.gd" id="1_jwtug"]
+[ext_resource type="Script" path="res://Game/Objects/Player/StateMachine/StateMachine.gd" id="2_ojv6d"]
+[ext_resource type="PackedScene" uid="uid://boh2d844t5av6" path="res://Game/Objects/Weapons/M16/ar_rifle_10.glb" id="3_0pou2"]
+[ext_resource type="PackedScene" uid="uid://c55n16rohajim" path="res://Game/Objects/Player/Meshes/player_mesh.tscn" id="3_c2qts"]
+[ext_resource type="Script" path="res://Game/Objects/Weapons/M16/M16_Data.gd" id="4_4rgl7"]
+[ext_resource type="Script" path="res://Game/Objects/Weapon manager/Weapon manager.gd" id="4_q7vif"]
+[ext_resource type="PackedScene" uid="uid://bv2n8wxmyu7fj" path="res://Game/Objects/Muzzle flash/muzzle_flash.tscn" id="5_glrf8"]
+[ext_resource type="AudioStream" uid="uid://dgsuogwdd37x3" path="res://Game/Objects/Weapons/M16/Sounds/Rifle single shot.wav" id="7_3jrof"]
+[ext_resource type="Script" path="res://Game/Objects/Weapon motions/Weapon motions.gd" id="8_ujdgk"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_j5cl0"]
+margin = 0.01
+radius = 0.3
+
+[sub_resource type="Curve" id="Curve_rwajh"]
+min_value = -1.0
+_data = [Vector2(0, 0.098901), 0.0, 3.65128, 0, 1, Vector2(0.0842697, 0.406593), 3.65128, -7.30256, 1, 1, Vector2(0.168539, -0.208791), 0.0, 1.36923, 0, 1, Vector2(0.280899, -0.054945), 0.0, 2.10651, 0, 1, Vector2(0.353933, 0.0989012), 0.0, 0.90279, 0, 1, Vector2(0.5, 0.230769), 0.0, 0.0, 0, 0, Vector2(0.561798, -0.164835), 0.0, 0.0, 0, 0, Vector2(0.696629, -0.164835), 0.0, 0.0, 0, 0, Vector2(0.837079, -0.076923), 0.0, 0.0, 0, 0, Vector2(0.932584, 0.120879), 0.0, 0.0, 0, 0, Vector2(1, -0.142857), 0.0, 0.0, 0, 0]
+point_count = 11
+
+[sub_resource type="Curve" id="Curve_k206h"]
+_data = [Vector2(0, 0.120879), 0.0, 1.43443, 0, 1, Vector2(0.0842697, 0.241758), 0.0, 0.946473, 0, 1, Vector2(0.258427, 0.406593), 0.0, 2.64641, 0, 1, Vector2(0.353933, 0.659341), 0.0, -1.04788, 0, 1, Vector2(0.511236, 0.494505), 0.0, 0.10031, 0, 1, Vector2(0.730337, 0.516483), 0.0, 1.86713, 0, 1, Vector2(0.853933, 0.747253), 0.0, 1.73035, 0, 1, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 8
+
+[node name="Player" type="CharacterBody3D"]
+floor_max_angle = 0.872665
+script = ExtResource("1_jwtug")
+
+[node name="Player_Mesh" parent="." instance=ExtResource("3_c2qts")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+visible = false
+
+[node name="HeadContainer" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Horizontal" type="Node3D" parent="HeadContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+top_level = true
+
+[node name="Vertical" type="Node3D" parent="HeadContainer/Horizontal"]
+
+[node name="Camera3D" type="Camera3D" parent="HeadContainer/Horizontal/Vertical"]
+fov = 90.0
+near = 0.01
+
+[node name="ContainerOffset" type="Node3D" parent="HeadContainer/Horizontal/Vertical/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.095, -0.1, -0.365)
+
+[node name="Container" type="Node3D" parent="HeadContainer/Horizontal/Vertical/Camera3D/ContainerOffset"]
+
+[node name="M16" parent="HeadContainer/Horizontal/Vertical/Camera3D/ContainerOffset/Container" instance=ExtResource("3_0pou2")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+script = ExtResource("4_4rgl7")
+
+[node name="Muzzle_flash" parent="HeadContainer/Horizontal/Vertical/Camera3D/ContainerOffset/Container/M16" instance=ExtResource("5_glrf8")]
+transform = Transform3D(-1.09278e-08, 0, -0.25, 0, 0.25, 0, 0.25, 0, -1.09278e-08, -0.529212, 0.0431079, 2.23517e-08)
+
+[node name="RayCast3D" type="RayCast3D" parent="HeadContainer/Horizontal/Vertical/Camera3D"]
+enabled = false
+target_position = Vector3(0, 0, -25)
+hit_back_faces = false
+debug_shape_custom_color = Color(0.898039, 0, 0, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_j5cl0")
+
+[node name="Systems" type="Node" parent="."]
+
+[node name="StateMachine" type="Node" parent="Systems" node_paths=PackedStringArray("Entity")]
+script = ExtResource("2_ojv6d")
+Entity = NodePath("../..")
+
+[node name="Weapon manager" type="Node" parent="Systems" node_paths=PackedStringArray("muzzle_flash", "container_node", "cooldown", "raycast", "gun_shot_sfx", "camera", "weapon_motion", "container_offset_node")]
+script = ExtResource("4_q7vif")
+muzzle_flash = NodePath("../../HeadContainer/Horizontal/Vertical/Camera3D/ContainerOffset/Container/M16/Muzzle_flash")
+container_node = NodePath("../../HeadContainer/Horizontal/Vertical/Camera3D/ContainerOffset/Container")
+cooldown = NodePath("Cooldown")
+raycast = NodePath("../../HeadContainer/Horizontal/Vertical/Camera3D/RayCast3D")
+gun_shot_sfx = NodePath("Gun_shot_sfx")
+camera = NodePath("../../HeadContainer/Horizontal/Vertical/Camera3D")
+weapon_motion = NodePath("../Weapon motion")
+container_offset_node = NodePath("../../HeadContainer/Horizontal/Vertical/Camera3D/ContainerOffset")
+fire_rate = 0.09
+recoil_speed = 10.0
+return_speed = 4.0
+horizontal_curve = SubResource("Curve_rwajh")
+vertical_curve = SubResource("Curve_k206h")
+
+[node name="Cooldown" type="Timer" parent="Systems/Weapon manager"]
+one_shot = true
+
+[node name="Gun_shot_sfx" type="AudioStreamPlayer" parent="Systems/Weapon manager"]
+stream = ExtResource("7_3jrof")
+max_polyphony = 24
+
+[node name="Weapon motion" type="Node" parent="Systems" node_paths=PackedStringArray("player", "weapon_container")]
+script = ExtResource("8_ujdgk")
+player = NodePath("../..")
+weapon_container = NodePath("../../HeadContainer/Horizontal/Vertical/Camera3D/ContainerOffset/Container")
+
+[connection signal="timeout" from="Systems/Weapon manager/Cooldown" to="Systems/Weapon manager" method="_on_cooldown_timeout"]
