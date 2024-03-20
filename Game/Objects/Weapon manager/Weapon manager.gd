@@ -22,18 +22,27 @@ var aiming : bool = false
 @export var fire_rate : float = 0.08
 
 @export_subgroup("Recoil Parameter")
-var final_pos : Vector3
-var current_pos : Vector3
-var recoil_time : float = 0.0
-@export var recoil_cooldown : float = 0.2
-var recoil_cooldown_time : float = 0.0
-@export var max_recoil : float = 6.0
-@export var recoil_speed : float = 4.5
-@export var return_speed : float = 8.0
-@export var horizontal_curve : Curve
-@export var vertical_curve : Curve
+@export var recoil_pattern := [
+	Vector3(0.1 , -0.04, 0),
+	Vector3(0.11 , -0.05, 0),
+	Vector3(0.12 , 0.04, 0),
+	Vector3(0.12 , 0.03, 0),
+	Vector3(0.11 , -0.08, 0),
+	Vector3(0.11 , 0.1, 0),
+	Vector3(0.11 , 0.07, 0),
+	Vector3(0.11 , -0.04, 0),
+	Vector3(0.12 , -0.02, 0),
+	Vector3(0.13 , 0.05, 0),
+]
 
 
+var target_recoil = Vector3.ZERO
+var recoil = Vector3.ZERO
+var recoil_speed: float = 5
+var recoil_return_speed: float = 0.5
+var shot_count : int = 0
+
+@export var player : Player
 func _ready():
 	cooldown.wait_time = fire_rate
 
@@ -41,14 +50,17 @@ func _process(delta):
 	
 	handle_recoil(delta)
 	
-	if Input.is_action_pressed("Action_Left_Click") and not shooting:
+	if Input.is_action_pressed("Action_Left_Click") and cooldown.is_stopped():
 		# Applying procedural animations
 		shooting = true
+		shot_count += 1
+		apply_recoil()
+		
+		# Visuals
 		weapon_motion.apply_kickback_pos()
 		weapon_motion.apply_kickback_rot()
 		cooldown.start()
 		gun_shot_sfx.play()
-		apply_recoil()
 		
 		# Raycast detecting
 		raycast.force_raycast_update()
@@ -57,6 +69,10 @@ func _process(delta):
 			var point = raycast.get_collision_point()
 			var normal = raycast.get_collision_normal()
 			handle_bullet_decal(point,normal)
+	
+	if Input.is_action_just_released("Action_Left_Click") and shooting:
+		shot_count = 0
+		shooting = false
 	
 	if Input.is_action_pressed("Action_Right_Click"):
 		aiming = true
@@ -69,34 +85,88 @@ func _process(delta):
 		container_offset_node.position = container_offset_node.position.lerp(hip_pos,aim_speed * delta)
 	
 func apply_recoil() -> void:
-	var min_spread : float = 0.15
-	#var random_spread : Vector3 = Vector3(randf_range(-spread,spread),randf_range(-spread,spread),0)
-	
-	
-	var x_recoil : float = horizontal_curve.sample(recoil_time)
-	var y_recoil : float = vertical_curve.sample(recoil_time)
-	var spread : Vector3 = Vector3(x_recoil,y_recoil,0)
-	raycast.position = spread
-	
-	final_pos.x += y_recoil * max_recoil
-	print(recoil_time)
+	var index = min(shot_count,recoil_pattern.size() - 1)
+	target_recoil += recoil_pattern[index]
 
 func handle_recoil(delta : float) -> void:
-	final_pos = final_pos.lerp(Vector3.ZERO,return_speed * delta)
-	current_pos = current_pos.lerp(final_pos,recoil_speed * delta)
+	if target_recoil == Vector3.ZERO and recoil == Vector3.ZERO: return
 	
-	camera.rotation_degrees = current_pos
+	target_recoil.x -= min(sign(target_recoil.x) * delta * recoil_return_speed, abs(target_recoil.x))
+	target_recoil.y -= min(sign(target_recoil.y) * delta * recoil_return_speed, abs(target_recoil.y))
+	target_recoil.z -= min(sign(target_recoil.z) * delta * recoil_return_speed, abs(target_recoil.z))
+	#target_recoil = lerp(target_recoil,Vector3.ZERO,recoil_return_speed * delta)
+	recoil = lerp(recoil,target_recoil,recoil_speed * delta)
 	
-	if Input.is_action_pressed("Action_Left_Click"): # If we are shooting, Increase recoil time
-		muzzle_flash.play()
-		recoil_time += delta
-		recoil_cooldown_time = recoil_cooldown
-	elif recoil_cooldown_time > 0: # if cooldown is more then 0 remove time
-		recoil_cooldown_time -= delta
+func recoil_compensation(mouse_delta: Vector2):
+	# we don't need to do any of this if recoil is zero
+	if target_recoil == Vector3.ZERO and recoil == Vector3.ZERO:
+		return
 	
-	if recoil_cooldown_time <= 0: # if cooldown is done set recoil_time to zero
-		recoil_time = 0.0
+	# x axis
+	# you can read this as "if we're componsating for recoil in this direction"
+	if target_recoil.x < 0 && mouse_delta.y < 0:
+		# if we go past 0, we set recoil to 0
+		# and add the existing target_recoil to look_rotation
+		if target_recoil.x - mouse_delta.y > 0:
+			player.look_dir.x += target_recoil.x
+			target_recoil.x = 0
+		# otherwise, we substract mouse delta from target_recoil 
+		# and add mouse delta to look_rotation
+		else:
+			player.look_dir.x += mouse_delta.y
+			target_recoil.x -= mouse_delta.y
 	
+	elif target_recoil.x > 0 && mouse_delta.y > 0:
+		if target_recoil.x - mouse_delta.y < 0:
+			player.look_dir.x += target_recoil.y
+			target_recoil.x = 0
+		else:
+			player.look_dir.x += mouse_delta.y
+			target_recoil.x -= mouse_delta.y
+	
+	# do the same for the smooth recoil
+	# might not be necesarry
+	if recoil.x < 0 && mouse_delta.y < 0:
+		if recoil.x - mouse_delta.y > 0:
+			recoil.x = 0
+		else:
+			recoil.x -= mouse_delta.y
+	
+	elif recoil.x > 0 && mouse_delta.y > 0:
+		if recoil.x - mouse_delta.y < 0:
+			recoil.x = 0
+		else:
+			recoil.x -= mouse_delta.y
+	
+	# y axis
+	if target_recoil.y < 0 && mouse_delta.x < 0:
+		if target_recoil.y - mouse_delta.y > 0:
+			player.look_dir.y += target_recoil.y
+			target_recoil.y = 0
+		else:
+			player.look_dir.y += mouse_delta.x
+			target_recoil.y -= mouse_delta.x
+	
+	elif target_recoil.y > 0 && mouse_delta.x > 0:
+		if target_recoil.y - mouse_delta.x < 0:
+			player.look_dir.y += target_recoil.y
+			target_recoil.y = 0
+		else:
+			player.look_dir.y += mouse_delta.x
+			target_recoil.y -= mouse_delta.x
+	
+	if recoil.y < 0 && mouse_delta.x < 0:
+		if recoil.y - mouse_delta.x > 0:
+			recoil.y = 0
+		else:
+			recoil.y -= mouse_delta.x
+	
+	elif recoil.y > 0 && mouse_delta.x > 0:
+		if recoil.y - mouse_delta.x < 0:
+			recoil.y = 0
+		else:
+			recoil.y -= mouse_delta.x
+
 func handle_bullet_decal(point : Vector3, normal : Vector3) -> void:
 	var bullet_hole = bullet_hole_decal.instantiate()
 	get_tree().current_scene.add_child(bullet_hole)
@@ -109,5 +179,3 @@ func handle_bullet_decal(point : Vector3, normal : Vector3) -> void:
 	else:
 		bullet_hole.look_at(point + normal,Vector3.DOWN)
 
-func _on_cooldown_timeout():
-	shooting = false

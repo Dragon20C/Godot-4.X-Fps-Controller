@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cypf1d4nk68of"
+path="res://.godot/imported/Steps_gravel-016.ogg-f0ec35c9750c41333caaff9abc59e8ea.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game/Audio/Footsteps/Footsteps SFX/Gravel/Steps_gravel-016.ogg"
+dest_files=["res://.godot/imported/Steps_gravel-016.ogg-f0ec35c9750c41333caaff9abc59e8ea.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

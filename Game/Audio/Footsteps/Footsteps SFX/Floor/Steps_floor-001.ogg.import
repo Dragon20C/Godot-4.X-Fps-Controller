@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bknby5nswnl5k"
+path="res://.godot/imported/Steps_floor-001.ogg-33362d189412b5309f4ed69d5a794e8f.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game/Audio/Footsteps/Footsteps SFX/Floor/Steps_floor-001.ogg"
+dest_files=["res://.godot/imported/Steps_floor-001.ogg-33362d189412b5309f4ed69d5a794e8f.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

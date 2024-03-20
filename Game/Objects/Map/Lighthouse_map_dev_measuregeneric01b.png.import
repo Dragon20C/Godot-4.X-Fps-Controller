@@ -3,21 +3,20 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d0nn55xkrllmk"
-path.s3tc="res://.godot/imported/Lighthouse_map_dev_measuregeneric01b.png-9c98641f291441e54394f42b40b895b9.s3tc.ctex"
+path="res://.godot/imported/Lighthouse_map_dev_measuregeneric01b.png-9c98641f291441e54394f42b40b895b9.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 generator_parameters={}
 
 [deps]
 
 source_file="res://Game/Objects/Map/Lighthouse_map_dev_measuregeneric01b.png"
-dest_files=["res://.godot/imported/Lighthouse_map_dev_measuregeneric01b.png-9c98641f291441e54394f42b40b895b9.s3tc.ctex"]
+dest_files=["res://.godot/imported/Lighthouse_map_dev_measuregeneric01b.png-9c98641f291441e54394f42b40b895b9.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

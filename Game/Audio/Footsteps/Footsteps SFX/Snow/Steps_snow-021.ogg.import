@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cqu3v4ancveps"
+path="res://.godot/imported/Steps_snow-021.ogg-cc588af8cd4bec9759f3ebe22b6bf58b.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game/Audio/Footsteps/Footsteps SFX/Snow/Steps_snow-021.ogg"
+dest_files=["res://.godot/imported/Steps_snow-021.ogg-cc588af8cd4bec9759f3ebe22b6bf58b.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

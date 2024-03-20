@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bieyv7midugyx"
+path="res://.godot/imported/Steps_dirt-020.ogg-ed3a1a88d91b3f3a646bda0a448d32c4.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-020.ogg"
+dest_files=["res://.godot/imported/Steps_dirt-020.ogg-ed3a1a88d91b3f3a646bda0a448d32c4.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

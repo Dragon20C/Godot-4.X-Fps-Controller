@@ -11,10 +11,11 @@ func enter_state() -> void:
 	Global.dev_menu.update_property("StateMachine","Falling")
 	fall_damage = 0.0
 	fall_velocity = Entity.velocity.y
+	Global.footstep_node.on = false
 
 func exit_state() -> void:
 	# Override this method in each state script
-	pass
+	Global.footstep_node.on = true
 	
 func unhandled_state_input(event) -> void:
 	if event is InputEventMouseMotion && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:

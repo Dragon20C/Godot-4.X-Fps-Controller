@@ -31,7 +31,7 @@ directional_shadow_split_2 = 0.1
 directional_shadow_split_3 = 0.2
 
 [node name="Player" parent="." instance=ExtResource("3_ghmmk")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -11, 1, 13)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1, 16)
 
 [node name="Game_interface" type="CanvasLayer" parent="."]
 

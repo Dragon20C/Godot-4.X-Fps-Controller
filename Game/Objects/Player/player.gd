@@ -13,6 +13,8 @@ class_name Player extends CharacterBody3D
 @export var fall_speed_threshold : float = 12.5
 @export var max_fall_damage : float = 25.0
 
+
+
 @export_subgroup("Properties")
 @export var stop_speed := 4.0
 @export var move_speed := 7.5
@@ -37,9 +39,12 @@ var was_grounded := true				# If player was grounded last frame
 var vertical := Vector3(0, 1, 0)		# Shortcut for converting vectors to vertical
 var horizontal := Vector3(1, 0, 1)		# Shortcut for converting vectors to horizontal
 
+@export_subgroup("MISC")
+@export var weapon_manager : Node
+var look_dir : Vector3
+
 func _ready():
 	if not is_multiplayer_authority(): return
-	
 	mesh.visible = false
 	camera.current = true
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -47,14 +52,24 @@ func _ready():
 
 func rotate_look(amount : Vector2) -> void:
 	if not is_multiplayer_authority(): return
-	rotation.y -= amount.x
-	horizontal_node.rotation.y -= amount.x
-	vertical_node.rotation.x = clamp(vertical_node.rotation.x - amount.y, -PI * 0.5, PI * 0.5)
+	look_dir.y -= amount.x
+	look_dir.x -= amount.y
+	#vertical_node.rotation.x = clamp(vertical_node.rotation.x - amount.y, -PI * 0.5, PI * 0.5)
+	
+	weapon_manager.recoil_compensation(amount)
 
-func _physics_process(delta):
+func _physics_process(delta):	
+	apply_camera_motion()
 	handle_mouse()
 	smooth_camera_jitter(delta)
 	Global.dev_menu.update_property("Velocity",str("%.2f" % velocity.length()))
+
+# In this function I am applying the camera rotation and also recoil rotation
+func apply_camera_motion() -> void:
+	look_dir.x = clampf(look_dir.x,-PI * 0.5,PI * 0.5)
+	rotation.y = look_dir.y + weapon_manager.recoil.y
+	horizontal_node.rotation.y = look_dir.y + weapon_manager.recoil.y
+	vertical_node.rotation.x = look_dir.x + weapon_manager.recoil.x
 
 func handle_mouse() -> void:
 	if not is_multiplayer_authority(): return

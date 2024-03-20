@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bxulowi8mo6c6"
+path="res://.godot/imported/Steps_water-020.ogg-466b5a267832d0c97eeb7cfac663ab34.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game/Audio/Footsteps/Footsteps SFX/Water/Steps_water-020.ogg"
+dest_files=["res://.godot/imported/Steps_water-020.ogg-466b5a267832d0c97eeb7cfac663ab34.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

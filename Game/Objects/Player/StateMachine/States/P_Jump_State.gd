@@ -5,11 +5,12 @@ func enter_state() -> void:
 	# Override this method in each state script
 	Global.dev_menu.update_property("StateMachine","Jumping")
 	Entity.apply_jump()
+	Global.footstep_node.on = false
 
 func exit_state() -> void:
 	# Override this method in each state script
 	#Entity.camera.position.y = -0.2 # Add a landing effect when exiting jump state
-	pass
+	Global.footstep_node.on = true
 
 func unhandled_state_input(event) -> void:
 	# Override this method in each state script if needed

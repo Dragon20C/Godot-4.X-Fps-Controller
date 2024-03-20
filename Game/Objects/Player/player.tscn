@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c4uxbcfyoi64a"]
+[gd_scene load_steps=33 format=3 uid="uid://c4uxbcfyoi64a"]
 
 [ext_resource type="Script" path="res://Game/Objects/Player/player.gd" id="1_jwtug"]
 [ext_resource type="Script" path="res://Game/Objects/Player/StateMachine/StateMachine.gd" id="2_ojv6d"]
@@ -9,23 +9,37 @@
 [ext_resource type="PackedScene" uid="uid://bv2n8wxmyu7fj" path="res://Game/Objects/Muzzle flash/muzzle_flash.tscn" id="5_glrf8"]
 [ext_resource type="AudioStream" uid="uid://dgsuogwdd37x3" path="res://Game/Objects/Weapons/M16/Sounds/Rifle single shot.wav" id="7_3jrof"]
 [ext_resource type="Script" path="res://Game/Objects/Weapon motions/Weapon motions.gd" id="8_ujdgk"]
+[ext_resource type="Script" path="res://Game/Objects/Footstep manager/Footstep manager.gd" id="10_77j5e"]
+[ext_resource type="AudioStream" uid="uid://cfdbcxxd7c7ap" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-001.ogg" id="11_u3gdc"]
+[ext_resource type="AudioStream" uid="uid://0gbxu2kbu3gf" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-002.ogg" id="12_h5lvs"]
+[ext_resource type="AudioStream" uid="uid://6rmvq5g7jsa0" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-003.ogg" id="13_5m4gi"]
+[ext_resource type="AudioStream" uid="uid://desj6fs8wu6py" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-004.ogg" id="14_scsvf"]
+[ext_resource type="AudioStream" uid="uid://cju01fkiag6dp" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-005.ogg" id="15_4qdlf"]
+[ext_resource type="AudioStream" uid="uid://d0yoc4eexclao" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-006.ogg" id="16_ce734"]
+[ext_resource type="AudioStream" uid="uid://q0oh2uvpupb3" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-007.ogg" id="17_jqve2"]
+[ext_resource type="AudioStream" uid="uid://df8fr16mkfoql" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-008.ogg" id="18_c00u8"]
+[ext_resource type="AudioStream" uid="uid://bbsm64un4grd2" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-009.ogg" id="19_efcmv"]
+[ext_resource type="AudioStream" uid="uid://18bwe5pg4clw" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-010.ogg" id="20_vety7"]
+[ext_resource type="AudioStream" uid="uid://squdsj5kojl3" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-011.ogg" id="21_f1flw"]
+[ext_resource type="AudioStream" uid="uid://cg7upc0gv0ueu" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-012.ogg" id="22_8ys0j"]
+[ext_resource type="AudioStream" uid="uid://b0fjvscadv2ev" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-013.ogg" id="23_ryyye"]
+[ext_resource type="AudioStream" uid="uid://436ns2mygx2v" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-014.ogg" id="24_ronqn"]
+[ext_resource type="AudioStream" uid="uid://bas7io4frumy5" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-015.ogg" id="25_jjvi5"]
+[ext_resource type="AudioStream" uid="uid://bktamngfv7kd0" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-016.ogg" id="26_l3ssn"]
+[ext_resource type="AudioStream" uid="uid://cek04wd6vmtg0" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-017.ogg" id="27_g3k41"]
+[ext_resource type="AudioStream" uid="uid://ciyuf60hcqiis" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-018.ogg" id="28_17hlp"]
+[ext_resource type="AudioStream" uid="uid://df46iuu4oi071" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-019.ogg" id="29_v52l2"]
+[ext_resource type="AudioStream" uid="uid://bieyv7midugyx" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-020.ogg" id="30_sso6j"]
+[ext_resource type="AudioStream" uid="uid://crepesusshxic" path="res://Game/Audio/Footsteps/Footsteps SFX/Dirt/Steps_dirt-021.ogg" id="31_iklfx"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_j5cl0"]
 margin = 0.01
 radius = 0.3
 
-[sub_resource type="Curve" id="Curve_rwajh"]
-min_value = -1.0
-_data = [Vector2(0, 0.098901), 0.0, 3.65128, 0, 1, Vector2(0.0842697, 0.406593), 3.65128, -7.30256, 1, 1, Vector2(0.168539, -0.208791), 0.0, 1.36923, 0, 1, Vector2(0.280899, -0.054945), 0.0, 2.10651, 0, 1, Vector2(0.353933, 0.0989012), 0.0, 0.90279, 0, 1, Vector2(0.5, 0.230769), 0.0, 0.0, 0, 0, Vector2(0.561798, -0.164835), 0.0, 0.0, 0, 0, Vector2(0.696629, -0.164835), 0.0, 0.0, 0, 0, Vector2(0.837079, -0.076923), 0.0, 0.0, 0, 0, Vector2(0.932584, 0.120879), 0.0, 0.0, 0, 0, Vector2(1, -0.142857), 0.0, 0.0, 0, 0]
-point_count = 11
-
-[sub_resource type="Curve" id="Curve_k206h"]
-_data = [Vector2(0, 0.120879), 0.0, 1.43443, 0, 1, Vector2(0.0842697, 0.241758), 0.0, 0.946473, 0, 1, Vector2(0.258427, 0.406593), 0.0, 2.64641, 0, 1, Vector2(0.353933, 0.659341), 0.0, -1.04788, 0, 1, Vector2(0.511236, 0.494505), 0.0, 0.10031, 0, 1, Vector2(0.730337, 0.516483), 0.0, 1.86713, 0, 1, Vector2(0.853933, 0.747253), 0.0, 1.73035, 0, 1, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 8
-
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("weapon_manager")]
 floor_max_angle = 0.872665
 script = ExtResource("1_jwtug")
+weapon_manager = NodePath("Systems/Weapon manager")
 
 [node name="Player_Mesh" parent="." instance=ExtResource("3_c2qts")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
@@ -72,7 +86,7 @@ shape = SubResource("CylinderShape3D_j5cl0")
 script = ExtResource("2_ojv6d")
 Entity = NodePath("../..")
 
-[node name="Weapon manager" type="Node" parent="Systems" node_paths=PackedStringArray("muzzle_flash", "container_node", "cooldown", "raycast", "gun_shot_sfx", "camera", "weapon_motion", "container_offset_node")]
+[node name="Weapon manager" type="Node" parent="Systems" node_paths=PackedStringArray("muzzle_flash", "container_node", "cooldown", "raycast", "gun_shot_sfx", "camera", "weapon_motion", "container_offset_node", "player")]
 script = ExtResource("4_q7vif")
 muzzle_flash = NodePath("../../HeadContainer/Horizontal/Vertical/Camera3D/ContainerOffset/Container/M16/Muzzle_flash")
 container_node = NodePath("../../HeadContainer/Horizontal/Vertical/Camera3D/ContainerOffset/Container")
@@ -83,10 +97,7 @@ camera = NodePath("../../HeadContainer/Horizontal/Vertical/Camera3D")
 weapon_motion = NodePath("../Weapon motion")
 container_offset_node = NodePath("../../HeadContainer/Horizontal/Vertical/Camera3D/ContainerOffset")
 fire_rate = 0.09
-recoil_speed = 10.0
-return_speed = 4.0
-horizontal_curve = SubResource("Curve_rwajh")
-vertical_curve = SubResource("Curve_k206h")
+player = NodePath("../..")
 
 [node name="Cooldown" type="Timer" parent="Systems/Weapon manager"]
 one_shot = true
@@ -100,4 +111,12 @@ script = ExtResource("8_ujdgk")
 player = NodePath("../..")
 weapon_container = NodePath("../../HeadContainer/Horizontal/Vertical/Camera3D/ContainerOffset/Container")
 
-[connection signal="timeout" from="Systems/Weapon manager/Cooldown" to="Systems/Weapon manager" method="_on_cooldown_timeout"]
+[node name="Footstep manager" type="Node" parent="Systems" node_paths=PackedStringArray("player", "feet_emitter")]
+script = ExtResource("10_77j5e")
+player = NodePath("../..")
+feet_emitter = NodePath("feet_emitter")
+ground_sounds = Array[AudioStreamOggVorbis]([ExtResource("11_u3gdc"), ExtResource("12_h5lvs"), ExtResource("13_5m4gi"), ExtResource("14_scsvf"), ExtResource("15_4qdlf"), ExtResource("16_ce734"), ExtResource("17_jqve2"), ExtResource("18_c00u8"), ExtResource("19_efcmv"), ExtResource("20_vety7"), ExtResource("21_f1flw"), ExtResource("22_8ys0j"), ExtResource("23_ryyye"), ExtResource("24_ronqn"), ExtResource("25_jjvi5"), ExtResource("26_l3ssn"), ExtResource("27_g3k41"), ExtResource("28_17hlp"), ExtResource("29_v52l2"), ExtResource("30_sso6j"), ExtResource("31_iklfx")])
+max_distance = 3.0
+
+[node name="feet_emitter" type="AudioStreamPlayer3D" parent="Systems/Footstep manager"]
+max_polyphony = 8

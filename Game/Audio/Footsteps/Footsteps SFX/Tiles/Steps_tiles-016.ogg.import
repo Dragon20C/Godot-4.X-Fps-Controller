@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://ch1dvlc1mmhvr"
+path="res://.godot/imported/Steps_tiles-016.ogg-5ee63a88985527e4a644a02995b7ac7a.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game/Audio/Footsteps/Footsteps SFX/Tiles/Steps_tiles-016.ogg"
+dest_files=["res://.godot/imported/Steps_tiles-016.ogg-5ee63a88985527e4a644a02995b7ac7a.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

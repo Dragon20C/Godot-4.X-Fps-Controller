@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cru7cabvenomv"
+path="res://.godot/imported/Steps_carpet-011.ogg-c6d75dafd0a57f5f938d3cebd84bd3aa.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game/Audio/Footsteps/Footsteps SFX/Carpet/Steps_carpet-011.ogg"
+dest_files=["res://.godot/imported/Steps_carpet-011.ogg-c6d75dafd0a57f5f938d3cebd84bd3aa.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

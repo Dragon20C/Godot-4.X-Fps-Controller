@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dm5ug32mmeqw7"
+path="res://.godot/imported/Steps_carpet-008.ogg-58c98f20241e0ff850414c3e022d3c1a.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game/Audio/Footsteps/Footsteps SFX/Carpet/Steps_carpet-008.ogg"
+dest_files=["res://.godot/imported/Steps_carpet-008.ogg-58c98f20241e0ff850414c3e022d3c1a.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

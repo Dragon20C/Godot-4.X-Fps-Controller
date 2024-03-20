@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bwm2t667um3cw"
+path="res://.godot/imported/Steps_wood-012.ogg-5780b05225272396ffd750e0a2ba26a5.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game/Audio/Footsteps/Footsteps SFX/Wood/Steps_wood-012.ogg"
+dest_files=["res://.godot/imported/Steps_wood-012.ogg-5780b05225272396ffd750e0a2ba26a5.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
