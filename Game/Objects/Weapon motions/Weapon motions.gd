@@ -3,6 +3,9 @@ extends Node
 @export_subgroup("Misc")
 @export var player : Player
 @export var weapon_container : Node3D # The node that holds your weapon
+@export var disable_sway : bool = false
+@export var disable_kickback : bool = false
+@export var disable_bob : bool = false
 
 @export_subgroup("Procedural Kickback")
 @export var weapon_kickback_rot_x : Vector2 = Vector2(1,1)
@@ -59,7 +62,7 @@ func handle_motion(delta : float) -> void:
 
 # Handles the kickback when apply positional and rotational functions are called.
 func handle_kickback(delta : float) -> void:
-	
+	if disable_kickback: return
 	if kickback_pos == Vector3.ZERO and kickback_end_position == Vector3.ZERO:
 		return
 	
@@ -94,6 +97,7 @@ func apply_kickback_rot() -> void:
 
 # Handle Sway of the weapon when mouse movement is detected
 func handle_sway(delta : float) -> void:
+	if disable_sway: return
 	mouse_motion = lerp(mouse_motion,Vector2.ZERO,sway_return_speed * delta)
 	
 	var inital_sway_pos = Vector3(mouse_motion.x,mouse_motion.y,0)
@@ -107,6 +111,7 @@ func handle_sway(delta : float) -> void:
 
 # Handle bobbing fo the weapon
 func handle_bob(delta : float) -> void:
+	if disable_bob: return
 	
 	var check_floor : int = player.was_grounded as int
 	
