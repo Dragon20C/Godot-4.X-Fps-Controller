@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq314x4n7x3m3"]
+
+[ext_resource type="Script" path="res://Game/Objects/Dev_Menu/Dev_menu.gd" id="1_pixl4"]
+[ext_resource type="Theme" uid="uid://rskr2nud0dio" path="res://Game/Objects/Dev_Menu/Theme/Dev_Theme.tres" id="2_0ce5p"]
+
+[node name="Dev_menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_pixl4")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 272.0
+offset_bottom = 312.0
+theme = ExtResource("2_0ce5p")
+
+[node name="Container" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Container"]
+layout_mode = 2
+theme = ExtResource("2_0ce5p")
+text = "Dev Menu"
+horizontal_alignment = 1
+vertical_alignment = 1

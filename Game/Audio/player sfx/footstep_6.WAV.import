@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bf8ec513frauf"
+path="res://.godot/imported/footstep_6.WAV-8d5434829cdc946d7b16f98fe5974002.sample"
+
+[deps]
+
+source_file="res://Game/Audio/player sfx/footstep_6.WAV"
+dest_files=["res://.godot/imported/footstep_6.WAV-8d5434829cdc946d7b16f98fe5974002.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

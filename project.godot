@@ -11,18 +11,21 @@ config_version=5
 [application]
 
 config/name="3D FPS Player controller"
-run/main_scene="res://Game/Objects/Main/main.tscn"
+run/main_scene="res://Game/Objects/Main/Game_Handler.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Global="*res://Game/Features/Global/Global.gd"
+MenuLevel="*res://Game/Objects/Menus/Menu_level.gd"
 
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [dotnet]
 
@@ -65,6 +68,11 @@ Action_Right_Click={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":2,"canceled":false,"pressed":false,"double_click":false,"script":null)
 ]
 }
+Sprint={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
+}
 
 [layer_names]
 
@@ -78,3 +86,5 @@ Action_Right_Click={
 [rendering]
 
 lights_and_shadows/directional_shadow/size=8192
+anti_aliasing/quality/msaa_3d=2
+anti_aliasing/quality/screen_space_aa=1

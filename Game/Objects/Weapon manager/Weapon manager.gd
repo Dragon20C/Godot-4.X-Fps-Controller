@@ -1,5 +1,6 @@
 extends Node
 
+@export var bullet_tracer : Node3D
 @export var muzzle_flash : MeshInstance3D
 @export var container_node : Node3D
 @export var cooldown : Timer
@@ -13,7 +14,7 @@ extends Node
 @export var container_offset_node : Node3D
 @export var aim_speed : float = 18.0
 var aim_pos : Vector3 = Vector3(0.0,-0.101,-0.275)
-var hip_pos : Vector3 = Vector3(0.095,-0.1,-0.365)
+var hip_pos : Vector3 = Vector3(0.075,-0.1,-0.305)
 var shooting : bool = false
 var aiming : bool = false
 
@@ -61,6 +62,8 @@ func _process(delta):
 		weapon_motion.apply_kickback_rot()
 		cooldown.start()
 		gun_shot_sfx.play()
+		muzzle_flash.play()
+		
 		
 		# Raycast detecting
 		raycast.force_raycast_update()
@@ -69,7 +72,8 @@ func _process(delta):
 			var point = raycast.get_collision_point()
 			var normal = raycast.get_collision_normal()
 			handle_bullet_decal(point,normal)
-	
+			animate_tracer(point)
+			
 	if Input.is_action_just_released("Action_Left_Click") and shooting:
 		shot_count = 0
 		shooting = false
@@ -179,3 +183,14 @@ func handle_bullet_decal(point : Vector3, normal : Vector3) -> void:
 	else:
 		bullet_hole.look_at(point + normal,Vector3.DOWN)
 
+func animate_tracer(point : Vector3) -> void:
+	bullet_tracer.visible = true
+	var tracer_tween : Tween = create_tween()
+	var previous_pos = bullet_tracer.position
+	tracer_tween.tween_property(bullet_tracer,"global_position",point,0.08)
+	
+	await tracer_tween.finished
+	
+	bullet_tracer.visible = false
+	bullet_tracer.position = previous_pos
+	

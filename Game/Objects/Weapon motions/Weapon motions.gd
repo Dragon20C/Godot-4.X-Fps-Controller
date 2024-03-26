@@ -41,7 +41,7 @@ var sway_pos : Vector3 = Vector3.ZERO
 @export var bob_return_speed : float = 10.0
 @export var frequency : float = 1.0
 @export var amplitude : float = 0.01
-@export var bobbing_speed :float = 1.0
+@export var bobbing_speed :float = 1.4
 var motion : float =  0.0
 var bob_pos : Vector3
 

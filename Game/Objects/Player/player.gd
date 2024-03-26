@@ -2,10 +2,19 @@ class_name Player extends CharacterBody3D
 
 @onready var mesh : Node3D = get_node("Player_Mesh")
 @onready var animation_tree : AnimationTree = mesh.get_node("AnimationTree")
-@onready var head_container : Node3D = get_node("HeadContainer")
-@onready var horizontal_node : Node3D = get_node("HeadContainer/Horizontal")
-@onready var vertical_node : Node3D = get_node("HeadContainer/Horizontal/Vertical")
-@onready var camera : Camera3D = get_node("HeadContainer/Horizontal/Vertical/Camera3D")
+@onready var target_position : Node3D = get_node("Target_position")
+@export var horizontal_node : Node3D
+@export var vertical_node : Node3D
+@export var camera : Camera3D
+
+@export_subgroup("Head bob Properties")
+var bob_rate : float = 0.0
+@export var frequency : float = 1.2
+@export var amplitude : float = 0.08
+@export var camera_smooth : float = 18.0
+@export var camera_return_speed : float = 4.0
+@export var camera_stab : Node3D
+@export var stab_target : Marker3D
 
 @export_subgroup("Player Properties")
 @export var CAMERA_SMOOTHING : float = 20.0
@@ -17,7 +26,10 @@ class_name Player extends CharacterBody3D
 
 @export_subgroup("Properties")
 @export var stop_speed := 4.0
-@export var move_speed := 7.5
+@export var crouch_speed : float = 4.0
+@export var sprint_speed : float = 7.5
+@export var walk_speed : float = 5.2
+var move_speed : float = walk_speed
 
 @export var gravity := 18.0
 @export var max_fall_speed := 20.0
@@ -49,20 +61,20 @@ func _ready():
 	camera.current = true
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
-
 func rotate_look(amount : Vector2) -> void:
 	if not is_multiplayer_authority(): return
 	look_dir.y -= amount.x
 	look_dir.x -= amount.y
-	#vertical_node.rotation.x = clamp(vertical_node.rotation.x - amount.y, -PI * 0.5, PI * 0.5)
 	
 	weapon_manager.recoil_compensation(amount)
 
-func _physics_process(delta):	
+func _physics_process(delta):
+	head_bobbing(delta)
+	#camera_stabilisation()
 	apply_camera_motion()
-	handle_mouse()
-	smooth_camera_jitter(delta)
-	Global.dev_menu.update_property("Velocity",str("%.2f" % velocity.length()))
+	handle_mouse_focus()
+	if Global.dev_menu != null:
+		Global.dev_menu.update_property("Velocity",str("%.2f" % velocity.length()))
 
 # In this function I am applying the camera rotation and also recoil rotation
 func apply_camera_motion() -> void:
@@ -71,16 +83,15 @@ func apply_camera_motion() -> void:
 	horizontal_node.rotation.y = look_dir.y + weapon_manager.recoil.y
 	vertical_node.rotation.x = look_dir.x + weapon_manager.recoil.x
 
-func handle_mouse() -> void:
+func handle_mouse_focus() -> void:
 	if not is_multiplayer_authority(): return
 	
-	if Input.is_action_just_pressed("ui_cancel"):
-		get_tree().quit()
-		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		else:
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
+	#if Input.is_action_just_pressed("ui_cancel"):
+		#get_tree().quit()
+		#if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		#else:
+			#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func get_move_direction() -> Vector3:
 	var input_dir = Input.get_vector("Left", "Right", "Forward", "Backward")
@@ -106,10 +117,7 @@ func movement(delta : float) -> void:
 		velocity.y = max(-max_fall_speed, velocity.y - gravity * delta)
 		accelerate(delta, h_target_dir, move_speed, accel_air)
 	
-	stair_step_up()
 	move_and_slide()
-	stair_step_down()
-
 
 func accelerate(delta : float, p_target_dir : Vector3, p_target_speed : float, p_accel : float):
 	var current_speed : float = velocity.dot(p_target_dir)
@@ -137,99 +145,32 @@ func apply_friction(delta : float):
 	
 	velocity *= new_speed
 
-func stair_step_down():
-	if is_grounded:
-		return
-
-	# If we're falling from a step
-	if velocity.y <= 0 and was_grounded:
-		#_debug_stair_step_down("SSD_ENTER", null)													## DEBUG
-
-		# Initialize body test variables
-		var body_test_result = PhysicsTestMotionResult3D.new()
-		var body_test_params = PhysicsTestMotionParameters3D.new()
-
-		body_test_params.from = self.global_transform			## We get the player's current global_transform
-		body_test_params.motion = Vector3(0, MAX_STEP_DOWN, 0)	## We project the player downward
-
-		if PhysicsServer3D.body_test_motion(self.get_rid(), body_test_params, body_test_result):
-			# Enters if a collision is detected by body_test_motion
-			# Get distance to step and move player downward by that much
-			position.y += body_test_result.get_travel().y
-			apply_floor_snap()
-			is_grounded = true
-
-func stair_step_up():
-	if h_target_dir == Vector3.ZERO:
-		return
+func head_bobbing(delta : float) -> void:
+	if velocity.length() > 0 and was_grounded:
+		bob_rate += delta * velocity.length()
+		var motion = bob_motion()
 		
-	var body_test_params = PhysicsTestMotionParameters3D.new()
-	var body_test_result = PhysicsTestMotionResult3D.new()
-
-	var test_transform = global_transform				## Storing current global_transform for testing
-	var distance = h_target_dir * distance_check		## Distance forward we want to check
-	body_test_params.from = self.global_transform		## Self as origin point
-	body_test_params.motion = distance					## Go forward by current distance
-
-	if !PhysicsServer3D.body_test_motion(self.get_rid(), body_test_params, body_test_result):
-
-		## If we don't collide, return
-		return
-
-	var remainder = body_test_result.get_remainder()							## Get remainder from collision
-	test_transform = test_transform.translated(body_test_result.get_travel())	## Move test_transform by distance traveled before collision
-
-	var step_up = MAX_STEP_UP * vertical
-	body_test_params.from = test_transform
-	body_test_params.motion = step_up
-	PhysicsServer3D.body_test_motion(self.get_rid(), body_test_params, body_test_result)
-	test_transform = test_transform.translated(body_test_result.get_travel())
-
-	body_test_params.from = test_transform
-	body_test_params.motion = remainder
-	PhysicsServer3D.body_test_motion(self.get_rid(), body_test_params, body_test_result)
-	test_transform = test_transform.translated(body_test_result.get_travel())
-
-	if body_test_result.get_collision_count() != 0:
-		remainder = body_test_result.get_remainder().length()
-
-		### Uh, there may be a better way to calculate this in Godot.
-		var wall_normal = body_test_result.get_collision_normal()
-		var dot_div_mag = h_target_dir.dot(wall_normal) / (wall_normal * wall_normal).length()
-		var projected_vector = (h_target_dir - dot_div_mag * wall_normal).normalized()
-
-		body_test_params.from = test_transform
-		body_test_params.motion = remainder * projected_vector
-		PhysicsServer3D.body_test_motion(self.get_rid(), body_test_params, body_test_result)
-		test_transform = test_transform.translated(body_test_result.get_travel())
+		camera.transform.origin = lerp(camera.transform.origin,motion,camera_smooth * delta)
 		
-	body_test_params.from = test_transform
-	body_test_params.motion = MAX_STEP_UP * -vertical
+		#if motion.y < -amplitude + 0.01 and not stepped:
+			#stepped = true
+			#play_step_sound()
+		#elif motion.y > -0.01:
+			#stepped = false
+	elif velocity.length() == 0 or not was_grounded:
+		restart_camera(delta)
 
-	# Return if no collision
-	if !PhysicsServer3D.body_test_motion(self.get_rid(), body_test_params, body_test_result):
-		return
+func bob_motion() -> Vector3:
+	var pos = Vector3.ZERO
+	pos.y = -abs(sin(bob_rate * frequency) * amplitude)
+	pos.x = sin(bob_rate * frequency) * amplitude
+	return pos
+	
+func restart_camera(delta):
+	if camera.transform.origin == Vector3.ZERO: return
+	
+	camera.transform.origin = camera.transform.origin.lerp(Vector3.ZERO,camera_return_speed * delta)
+	bob_rate = 0.0
 
-	test_transform = test_transform.translated(body_test_result.get_travel())
-
-	# 5. Check floor normal for un-walkable slope
-	var surface_normal = body_test_result.get_collision_normal()
-	var temp_floor_max_angle = floor_max_angle + deg_to_rad(20)
-	if (snappedf(surface_normal.angle_to(vertical), 0.001) > temp_floor_max_angle):
-		return
-
-	var global_pos = global_position
-	#var step_up_dist = test_transform.origin.y - global_pos.y
-	global_pos.y = test_transform.origin.y
-	global_position = global_pos
-
-func smooth_camera_jitter(delta):
-	horizontal_node.global_position.x = head_container.global_position.x
-	horizontal_node.global_position.y = lerpf(horizontal_node.global_position.y, head_container.global_position.y, CAMERA_SMOOTHING * delta)
-	horizontal_node.global_position.z = head_container.global_position.z
-
-	# Limit how far camera can lag behind its desired position
-	horizontal_node.global_position.y = clampf(horizontal_node.global_position.y,
-										-head_container.global_position.y - 1,
-										head_container.global_position.y + 1)
-
+func camera_stabilisation() -> void:
+	camera.look_at(stab_target.global_position)

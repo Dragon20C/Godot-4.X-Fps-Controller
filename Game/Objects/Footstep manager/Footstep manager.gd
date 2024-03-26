@@ -1,33 +1,52 @@
 extends Node
-
+@export_subgroup("Misc")
 @export var player : Player
-@export var feet_emitter : AudioStreamPlayer3D
-@export var ground_sounds : Array[AudioStreamOggVorbis]
+@export_subgroup("Footstep properties")
+@export var sound_emitter : AudioStreamPlayer3D
+@export var footstep_sound : Array[AudioStreamWAV]
+@export var jumping_sound : AudioStream
+@export var landing_sound : AudioStream
 
-var distance_per_frame = Vector3.ZERO
-var distance_total = 0.0
-@export var max_distance : float = 2.0
-var previous_position = Vector3.ZERO
+var stored_time : float = 0.0
+var last_on_floor = false
+var footstep_delay = 0.32
+var last_footstep_time = 0.0
+
 var on : bool = true
 
 func _ready():
 	Global.footstep_node = self
 
 func _process(delta):
-	handle_footstep()
+	handle_footstep(delta)
 
-func handle_footstep() -> void:
-	if on:
-		distance_per_frame = player.global_transform.origin - previous_position
-		previous_position = player.global_transform.origin
-		distance_total += distance_per_frame.length()
-		if distance_total >= max_distance:
-			distance_total = 0
-			feet_emitter.stream = get_rand_sound()
-			feet_emitter.pitch_scale = randf_range(0.9, 1.1)
-			feet_emitter.play()
-	else:
-		distance_total = 0
+func handle_footstep(delta) -> void:
+	# Check if the player is on the floor.
+	#var on_floor = player.was_grounded
+	
+	if player.velocity.length() > 0 and player.was_grounded:
+		stored_time += player.velocity.length() * 0.15 * delta
+	
+	# If the player was on the floor last frame and is not on the floor this frame,
+	# play the landing sound effect.
+	if not last_on_floor and player.was_grounded: # Landing
+		sound_emitter.stream = landing_sound
+		sound_emitter.play()
+	elif last_on_floor and not player.was_grounded: # Jumping
+		sound_emitter.stream = jumping_sound
+		sound_emitter.play()
+	last_on_floor = player.was_grounded
+	
+	if not player.was_grounded: return
+	
+	# Check if the player is moving and enough time has passed since the last footstep.
+	if player.velocity.length() > 0 and stored_time > last_footstep_time + footstep_delay:
+		# Play the footstep sound effect.
+		sound_emitter.stream = get_rand_sound()
+		sound_emitter.pitch_scale = randf_range(0.9,1.1)
+		sound_emitter.play()
+		# Reset the last footstep time.
+		last_footstep_time = stored_time
 
-func get_rand_sound() -> AudioStreamOggVorbis:
-	return ground_sounds[randi_range(0,ground_sounds.size() - 1)]
+func get_rand_sound() -> AudioStreamWAV:
+	return footstep_sound[randi_range(0,footstep_sound.size() - 1)]

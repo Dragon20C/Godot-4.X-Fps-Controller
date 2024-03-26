@@ -1,0 +1,77 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6kkb6b5xkv5q"]
+
+[ext_resource type="Script" path="res://Game/Objects/Menus/In_Game_Menu/in_game_menu.gd" id="1_nmvcn"]
+[ext_resource type="Theme" uid="uid://b4c020jafg5tt" path="res://Game/Objects/Menus/UI_Theme.tres" id="2_bqaad"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a5vb1"]
+bg_color = Color(0.215686, 0.215686, 0.215686, 0.631373)
+border_width_left = 4
+border_width_right = 4
+border_color = Color(0.603922, 0, 0.156863, 1)
+
+[node name="In_Game_Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nmvcn")
+
+[node name="Task_bar" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 40.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme = ExtResource("2_bqaad")
+theme_override_styles/panel = SubResource("StyleBoxFlat_a5vb1")
+
+[node name="MarginContainer" type="MarginContainer" parent="Task_bar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_bqaad")
+
+[node name="MenuOptions" type="HBoxContainer" parent="Task_bar/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_bqaad")
+theme_override_constants/separation = 96
+alignment = 1
+
+[node name="resume" type="Button" parent="Task_bar/MarginContainer/MenuOptions"]
+layout_mode = 2
+theme = ExtResource("2_bqaad")
+text = "RESUME"
+flat = true
+
+[node name="exit" type="Button" parent="Task_bar/MarginContainer/MenuOptions"]
+layout_mode = 2
+theme = ExtResource("2_bqaad")
+text = "EXIT"
+flat = true
+
+[node name="Version" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -109.0
+offset_top = -18.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_bqaad")
+theme_override_font_sizes/font_size = 14
+text = "VERSION : 0.1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Task_bar/MarginContainer/MenuOptions/resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Task_bar/MarginContainer/MenuOptions/exit" to="." method="_on_exit_pressed"]

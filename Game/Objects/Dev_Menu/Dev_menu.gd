@@ -5,12 +5,19 @@ extends Control
 
 var properties : Dictionary
 
+var fps : float = 0.0
+
 func _ready():
 	Global.dev_menu = self
-	add_property("Move keys","WSAD")
-	add_property("Shoot Key","LMB")
+	add_property("FPS","N/A")
 	add_property("Velocity","N/A")
 	add_property("StateMachine","N/A")
+	add_property("Move keys","WSAD")
+	add_property("Shoot Key","LMB")
+	
+func _process(delta):
+	fps = (1.0 / delta)
+	update_property("FPS",str("%.2f" % fps))
 
 func add_property(key : String,value : String) -> void:
 	var property = Label.new()

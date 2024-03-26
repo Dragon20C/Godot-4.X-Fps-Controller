@@ -1,4 +1,4 @@
-class_name PStateMachine extends Node
+class_name Statemachine extends Node
 
 enum Entity_States {Idle,Walk,Sprint,Jump,Fall}
 @export var Entity : Player
@@ -14,11 +14,12 @@ func _ready():
 # Use the Add State function to add states to the machine.
 func Register_States() -> void:
 	# Example of adding states
-	Add_State(P_Idle_State.new(),Entity_States.Idle)
-	Add_State(P_Walk_State.new(),Entity_States.Walk)
-	Add_State(P_Fall_State.new(),Entity_States.Fall)
-	Add_State(P_Sprint_State.new(),Entity_States.Sprint)
-	Add_State(P_Jump_State.new(),Entity_States.Jump)
+	pass
+	#Add_State(P_Idle_State.new(),Entity_States.Idle)
+	#Add_State(P_Walk_State.new(),Entity_States.Walk)
+	#Add_State(P_Fall_State.new(),Entity_States.Fall)
+	#Add_State(P_Sprint_State.new(),Entity_States.Sprint)
+	#Add_State(P_Jump_State.new(),Entity_States.Jump)
 
 # A add state function so we can add the states to our states dictionary
 func Add_State(New_State : Player_States, Enum_State : Entity_States) -> void:

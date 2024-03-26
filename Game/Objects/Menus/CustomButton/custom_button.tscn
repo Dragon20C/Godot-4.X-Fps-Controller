@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1m72r7snv6g6"]
+
+[ext_resource type="Theme" uid="uid://b4c020jafg5tt" path="res://Game/Objects/Menus/UI_Theme.tres" id="1_gbd0n"]
+[ext_resource type="Script" path="res://Game/Objects/Menus/CustomButton/custom_button.gd" id="2_yhy3b"]
+
+[node name="CustomButton" type="Button"]
+offset_top = -3.0
+offset_right = 265.0
+offset_bottom = 43.0
+theme = ExtResource("1_gbd0n")
+toggle_mode = true
+button_pressed = true
+text = "CUSTOM BUTTON"
+flat = true
+script = ExtResource("2_yhy3b")
+
+[node name="ItemList" type="ItemList" parent="."]
+layout_mode = 0
+offset_top = -85.0
+offset_right = 171.0
+offset_bottom = 1.0
+theme = ExtResource("1_gbd0n")
+allow_search = false
+auto_height = true
+text_overrun_behavior = 0
+item_count = 2
+item_0/text = "Singleplayer"
+item_1/text = "Multiplayer"
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
+[connection signal="toggled" from="." to="." method="_on_toggled"]

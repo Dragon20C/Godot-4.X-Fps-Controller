@@ -1,8 +1,6 @@
 class_name P_Fall_State extends Player_States
 
 
-		#if self.vertical_speed > threshold_speed:
-			#fall_damage = min(max_damage, math.ceil((self.vertical_speed - threshold_speed) * 0.5)
 var fall_damage : float = 0.0
 var fall_velocity : float = 0.0
 
@@ -33,8 +31,10 @@ func update(_delta) -> void:
 	pass
 
 func get_next_state() -> int:
-	if Entity.is_on_floor() and Entity.h_target_dir == Vector3.ZERO:
+	if Entity.was_grounded and Entity.h_target_dir == Vector3.ZERO:
 		return States.Idle
-	elif Entity.h_target_dir != Vector3.ZERO and Entity.is_on_floor():
+	if Entity.h_target_dir != Vector3.ZERO and Entity.was_grounded and Input.is_action_pressed("Sprint"):
+		return States.Sprint
+	if Entity.h_target_dir != Vector3.ZERO and Entity.was_grounded:
 		return States.Walk
 	return Key

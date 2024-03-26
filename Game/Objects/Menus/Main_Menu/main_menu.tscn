@@ -1,0 +1,133 @@
+[gd_scene load_steps=5 format=3 uid="uid://08x2nwgqqo8a"]
+
+[ext_resource type="Script" path="res://Game/Objects/Menus/Main_Menu/main_menu.gd" id="1_0qtyr"]
+[ext_resource type="Theme" uid="uid://b4c020jafg5tt" path="res://Game/Objects/Menus/UI_Theme.tres" id="2_rmc56"]
+[ext_resource type="PackedScene" uid="uid://l1t08h0n3xwm" path="res://Game/Objects/chatbox/chatbox.tscn" id="3_g4qr8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a5vb1"]
+bg_color = Color(0.215686, 0.215686, 0.215686, 0.631373)
+border_width_left = 4
+border_width_right = 4
+border_color = Color(0.603922, 0, 0.156863, 1)
+
+[node name="Main_Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0qtyr")
+
+[node name="Task_bar" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 40.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme = ExtResource("2_rmc56")
+theme_override_styles/panel = SubResource("StyleBoxFlat_a5vb1")
+
+[node name="MarginContainer" type="MarginContainer" parent="Task_bar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_rmc56")
+
+[node name="MenuOptions" type="HBoxContainer" parent="Task_bar/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_rmc56")
+theme_override_constants/separation = 96
+alignment = 1
+
+[node name="Play" type="Button" parent="Task_bar/MarginContainer/MenuOptions"]
+layout_mode = 2
+theme = ExtResource("2_rmc56")
+text = "PLAY"
+flat = true
+
+[node name="Options" type="Button" parent="Task_bar/MarginContainer/MenuOptions"]
+layout_mode = 2
+theme = ExtResource("2_rmc56")
+text = "OPTIONS"
+flat = true
+
+[node name="About" type="Button" parent="Task_bar/MarginContainer/MenuOptions"]
+layout_mode = 2
+theme = ExtResource("2_rmc56")
+text = "ABOUT"
+flat = true
+
+[node name="Exit" type="Button" parent="Task_bar/MarginContainer/MenuOptions"]
+layout_mode = 2
+theme = ExtResource("2_rmc56")
+text = "EXIT"
+flat = true
+
+[node name="Version" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -109.0
+offset_top = -18.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_rmc56")
+theme_override_font_sizes/font_size = 14
+text = "VERSION : 0.1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="User_profile" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 0.528
+offset_left = -188.0
+offset_top = 177.0
+offset_bottom = -127.16
+grow_horizontal = 0
+grow_vertical = 2
+theme = ExtResource("2_rmc56")
+theme_override_styles/panel = SubResource("StyleBoxFlat_a5vb1")
+
+[node name="MarginContainer" type="MarginContainer" parent="User_profile"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="User_profile/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Username" type="LineEdit" parent="User_profile/MarginContainer/HBoxContainer"]
+layout_mode = 2
+placeholder_text = "Username"
+
+[node name="Level" type="Label" parent="User_profile/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Level : 1"
+
+[node name="Chatbox" parent="." instance=ExtResource("3_g4qr8")]
+layout_mode = 1
+
+[connection signal="pressed" from="Task_bar/MarginContainer/MenuOptions/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Task_bar/MarginContainer/MenuOptions/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Task_bar/MarginContainer/MenuOptions/About" to="." method="_on_about_pressed"]
+[connection signal="pressed" from="Task_bar/MarginContainer/MenuOptions/Exit" to="." method="_on_exit_pressed"]

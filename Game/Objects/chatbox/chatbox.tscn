@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://l1t08h0n3xwm"]
+
+[ext_resource type="Theme" uid="uid://b4c020jafg5tt" path="res://Game/Objects/Menus/UI_Theme.tres" id="1_3dhbw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t7qa6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mb14c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sulrk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lff52"]
+
+[node name="Chatbox" type="Panel"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -275.0
+offset_right = 250.0
+grow_vertical = 0
+
+[node name="TextEdit" type="TextEdit" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_3dhbw")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_t7qa6")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mb14c")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_sulrk")
+editable = false
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 235.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_3dhbw")
+theme_override_colors/font_color = Color(0.603922, 0, 0.156863, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_lff52")
+placeholder_text = "Enter a message"
